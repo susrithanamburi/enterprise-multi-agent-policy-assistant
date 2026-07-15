@@ -1,24 +1,17 @@
-"""
-confidence.py
-
-Simple confidence scoring based on retrieval results.
-"""
-
-
-def calculate_confidence(retrieved_docs):
+def calculate_confidence(validation_result, retrieved_docs):
     """
-    Estimate confidence score.
-
-    Args:
-        retrieved_docs: Documents retrieved from FAISS.
-
-    Returns:
-        Confidence percentage.
+    Calculate a simple confidence score based on
+    validation results and retrieved evidence.
     """
 
-    if not retrieved_docs:
-        return 0
+    validation = validation_result.upper()
 
-    confidence = min(100, len(retrieved_docs) * 25)
+    if "PASS" in validation:
+        score = min(70 + (len(retrieved_docs) * 10), 100)
+    else:
+        score = max(30 + (len(retrieved_docs) * 5), 40)
 
-    return confidence
+    return {
+        "score": score,
+        "status": "High" if score >= 90 else "Medium" if score >= 70 else "Low"
+    }
