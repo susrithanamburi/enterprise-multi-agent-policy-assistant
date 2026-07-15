@@ -1,34 +1,66 @@
-"""
-validation_agent.py
-
-Performs basic validation of AI responses.
-"""
+from langchain_core.prompts import ChatPromptTemplate
+from langchain_openai import ChatOpenAI
 
 
-def validate_response(response: str):
+def validate_response(question, answer, retrieved_docs):
     """
-    Validate the generated response.
-
-    Args:
-        response: AI-generated answer.
-
-    Returns:
-        Validation dictionary.
+    Validate whether the generated answer is supported
+    by the retrieved policy documents.
     """
 
-    if not response:
-        return {
-            "valid": False,
-            "reason": "Empty response."
-        }
+    context = "\n\n".join(
+        doc.page_content for doc in retrieved_docs
+    )
 
-    if len(response.strip()) < 20:
-        return {
-            "valid": False,
-            "reason": "Response too short."
-        }
+    prompt = ChatPromptTemplate.from_messages(
+        [
+            (
+                "system",
+                """
+You are an AI quality reviewer.
 
-    return {
-        "valid": True,
-        "reason": "Validation passed."
-    }
+Determine whether the answer is fully supported by the policy context.
+
+Respond in this exact format:
+
+Validation: PASS or FAIL
+
+Reason:
+<brief explanation>
+                """
+            ),
+            (
+                "human",
+                """
+Policy Context:
+
+{context}
+
+Question:
+
+{question}
+
+Answer:
+
+{answer}
+                """
+            )
+        ]
+    )
+
+    llm = ChatOpenAI(
+        model="gpt-4.1-mini",
+        temperature=0
+    )
+
+    chain = prompt | llm
+
+    result = chain.invoke(
+        {
+            "context": context,
+            "question": question,
+            "answer": answer
+        }
+    )
+
+    return result.content
