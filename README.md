@@ -1,3 +1,11 @@
+![Python](https://img.shields.io/badge/Python-3.12-blue?style=for-the-badge&logo=python)
+![OpenAI](https://img.shields.io/badge/OpenAI-GPT--4.1--mini-black?style=for-the-badge)
+![LangChain](https://img.shields.io/badge/LangChain-RAG-green?style=for-the-badge)
+![FAISS](https://img.shields.io/badge/FAISS-Vector%20Database-orange?style=for-the-badge)
+![Streamlit](https://img.shields.io/badge/Streamlit-Web%20App-red?style=for-the-badge)
+
+
+
 # Enterprise Multi-Agent Policy Assistant
 
 An enterprise Retrieval-Augmented Generation (RAG) application that answers employee policy questions using AI while ensuring responses are grounded in official company documentation.
