@@ -8,6 +8,10 @@
 
 # Enterprise Multi-Agent Policy Assistant
 
+## Application Preview
+
+![Enterprise Multi-Agent Policy Assistant](assets/app.png)
+
 An enterprise Retrieval-Augmented Generation (RAG) application that answers employee policy questions using AI while ensuring responses are grounded in official company documentation.
 
 This project demonstrates how modern enterprise AI assistants retrieve, validate, and confidently answer questions using OpenAI, LangChain, FAISS, and Streamlit.
